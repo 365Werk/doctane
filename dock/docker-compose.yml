@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+  zwoel:
+    build:
+      context: ./php
+    ports:
+      - "${PORT}:8000"
+    hostname: ${COMPOSE_PROJECT_NAME}
+    tty: true
+    volumes:
+      - ../../../../:/home/application
