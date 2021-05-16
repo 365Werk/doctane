@@ -18,7 +18,7 @@ $ composer require werk365/doctane
 ## Usage
 
 ``` bash
-$ php artisan doctane:build
+$ php artisan doctane:install
 ```
 Builds an image from the provided Dockerfile
 
