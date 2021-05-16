@@ -26,7 +26,10 @@ class StopDocker extends Command
      */
     public function handle()
     {
-        $cmd = 'cd vendor/werk365/doctane/docker && docker compose down';
+        $container = config('doctane.container_name');;
+        $image = config('doctane.image_name');
+        $port = config('doctane.port');
+        $cmd = "docker stop $container";
         exec($cmd, $res);
 
         foreach($res as $r){

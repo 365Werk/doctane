@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+Simple package to create and run docker image preconfigured for Laravel Octane + Swoole and Kafka.
 
 ## Installation
 
@@ -16,6 +16,34 @@ $ composer require werk365/doctane
 ```
 
 ## Usage
+
+``` bash
+$ php artisan doctane:build
+```
+Builds an image from the provided Dockerfile
+
+
+``` bash
+$ php artisan doctane:start
+```
+Creates and starts container based on image, exposing port 8000, mounting your application directory and starting an octane (swoole) server
+
+
+``` bash
+$ php artisan doctane:stop
+```
+Shuts down container
+
+``` bash
+$ php artisan doctane:reload
+```
+Reload octane workers in container
+
+
+``` bash
+$ php artisan doctane:status
+```
+Check octane server status in container
 
 ## Change log
 
