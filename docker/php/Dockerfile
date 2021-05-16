@@ -5,6 +5,8 @@ RUN mkdir /phpIni
 COPY files/bin/ /usr/local/bin/
 COPY files/php/ /phpIni
 
+
+
 # SYS: Install required packages
 RUN apk --no-cache upgrade && \
     apk --no-cache add bash git sudo openssh  libxml2-dev postgresql-dev oniguruma-dev autoconf gcc g++ make npm freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev
@@ -31,7 +33,7 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 WORKDIR /home/application
 
 
-#CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0"]
+CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0"]
 
 EXPOSE 8666
 

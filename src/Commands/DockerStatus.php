@@ -26,12 +26,15 @@ class DockerStatus extends Command
      */
     public function handle()
     {
-        $cmd = 'cd packages/werk365/doctane/docker && docker compose exec zwoel php artisan octane:status';
+        $container = config('doctane.container_name');;
+        $image = config('doctane.image_name');
+        $port = config('doctane.port');
+        $cmd = "docker exec $container php artisan octane:status";
+        
         exec($cmd, $res);
-
         foreach($res as $r){
             $this->info($r);
         }
-        // $this->info('Using the SensioLabs Security Checker the composer.lock of the package is scanned for known security vulnerabilities in the dependencies.');
+        $this->info("Running on 127.0.0.1:$port");
     }
 }

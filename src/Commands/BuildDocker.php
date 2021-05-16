@@ -26,14 +26,12 @@ class BuildDocker extends Command
      */
     public function handle()
     {
-        $cmd = 'cd packages/werk365/doctane/docker && docker compose down';
-        exec($cmd);
-        $cmd = 'cd packages/werk365/doctane/docker && docker compose up -d --build';
+        $image = config('doctane.image_name');
+        $cmd = 'cd vendor/werk365/doctane/docker/php && docker build -t '.$image.' .';
         exec($cmd, $res);
 
         foreach($res as $r){
             $this->info($r);
         }
-        // $this->info('Using the SensioLabs Security Checker the composer.lock of the package is scanned for known security vulnerabilities in the dependencies.');
-    }
+     }
 }
