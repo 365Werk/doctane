@@ -31,10 +31,8 @@ class DockerStatus extends Command
         $port = config('doctane.port');
         $cmd = "docker exec $container php artisan octane:status";
         
-        exec($cmd, $res);
-        foreach($res as $r){
-            $this->info($r);
-        }
+        passthru($cmd);
+
         $this->info("Running on 127.0.0.1:$port");
     }
 }

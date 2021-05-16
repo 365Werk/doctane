@@ -13,6 +13,7 @@ class DoctaneServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $commands = [
+        'Werk365\Doctane\Commands\InstallDoctane',
         'Werk365\Doctane\Commands\BuildDocker',
         'Werk365\Doctane\Commands\StartDocker',
         'Werk365\Doctane\Commands\StopDocker',
@@ -38,5 +39,14 @@ class DoctaneServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/doctane.php', 'doctane');
         $this->commands($this->commands);
+    }
+
+    protected function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/doctane.php' => config_path('doctane.php'),
+            ], 'doctane-config');
+        }
     }
 }

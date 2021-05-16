@@ -5,13 +5,13 @@ namespace Werk365\Doctane\Commands;
 use Illuminate\Console\Command;
 
 
-class StartDocker extends Command
+class InstallDoctane extends Command
 {
     /**
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = 'doctane:start';
+    protected $signature = 'doctane:install';
 
     /**
      * The console command description.
@@ -26,10 +26,22 @@ class StartDocker extends Command
      */
     public function handle()
     {
+        $this->info("Installing Doctane");
+        $this->info("Publishing config to config/doctane.php");
+        $this->callSilent('vendor:publish', ['--tag' => 'doctane-config', '--force' => true]);
         $container = config('doctane.container_name');;
         $image = config('doctane.image_name');
         $port = config('doctane.port');
-        // Check if container exists
+        $this->info("Building image");
+        $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
+        passthru($cmd);
+        $this->info("Installation complete");
+
+        $run = $this->choice(
+            'Would you like to start the octane server?',
+            ['y', 'n'],
+        );
+        if($run){
         // Check if container exists
         $this->info("Checking if $container exists");
         $cmd = "docker ps -aq -f status=exited -f name=$container";
@@ -59,7 +71,6 @@ class StartDocker extends Command
         passthru($cmd);
 
         $this->info("Running on 127.0.0.1:$port");
-
-        return true;
-    }
+        }
+     }
 }

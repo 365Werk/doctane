@@ -30,10 +30,6 @@ class ReloadDocker extends Command
         $image = config('doctane.image_name');
         $port = config('doctane.port');
         $cmd = 'docker exec '.$container.' php artisan octane:reload';
-        exec($cmd, $res);
-
-        foreach($res as $r){
-            $this->info($r);
-        }
+        passthru($cmd);
     }
 }

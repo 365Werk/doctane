@@ -33,8 +33,6 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 WORKDIR /home/application
 
 
-CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0"]
-
-EXPOSE 8666
+# CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0"]
 
 

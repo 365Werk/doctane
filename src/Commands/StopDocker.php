@@ -30,10 +30,6 @@ class StopDocker extends Command
         $image = config('doctane.image_name');
         $port = config('doctane.port');
         $cmd = "docker stop $container";
-        exec($cmd, $res);
-
-        foreach($res as $r){
-            $this->info($r);
-        }
+        passthru($cmd);
     }
 }
