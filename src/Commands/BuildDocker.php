@@ -27,7 +27,7 @@ class BuildDocker extends Command
     public function handle()
     {
         $image = config('doctane.image_name');
-        $cmd = 'cd vendor/werk365/doctane/docker/php && docker build -t '.$image.' .';
+        $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
         exec($cmd, $res);
 
         foreach($res as $r){
