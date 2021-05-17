@@ -21,7 +21,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 # PHP: Install php extensions
 RUN pecl channel-update pecl.php.net
-RUN pecl install rdkafka pcov swoole
+RUN pecl install rdkafka pcov swoole ssh2
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install mbstring xml iconv pcntl gd zip sockets pdo pdo_pgsql pdo_mysql bcmath
 RUN docker-php-ext-enable mbstring xml rdkafka gd iconv zip swoole pcov pcntl sockets bcmath pdo pdo_pgsql pdo_mysql
@@ -31,8 +31,5 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/co
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 WORKDIR /home/application
-
-
-# CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0"]
 
 

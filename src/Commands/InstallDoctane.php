@@ -29,9 +29,17 @@ class InstallDoctane extends Command
         $this->info("Installing Doctane");
         $this->info("Publishing config to config/doctane.php");
         $this->callSilent('vendor:publish', ['--tag' => 'doctane-config', '--force' => true]);
+        $continue = $this->choice(
+            'Config has been published, please ensure necessary changes have been made before continueing.',
+            ['continue', 'abort'],
+        );
+        if($continue === "abort"){
+            return false;
+        }
         $container = config('doctane.container_name');;
         $image = config('doctane.image_name');
         $port = config('doctane.port');
+        $boots = config('doctane.boot');
         $this->info("Building image");
         $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
         passthru($cmd);
@@ -41,12 +49,12 @@ class InstallDoctane extends Command
             'Would you like to start the octane server?',
             ['y', 'n'],
         );
-        if($run){
+        if($run === "y"){
         // Check if container exists
         $this->info("Checking if $container exists");
         $cmd = "docker ps -aq -f status=exited -f name=$container";
         exec($cmd, $res);
-        
+
         if($res){
             $this->info("Cleaning containers");
             $cmd = "docker rm $container";
@@ -56,6 +64,11 @@ class InstallDoctane extends Command
         $cmd = "docker run -d --name $container -v ".getcwd().":/home/application -i -t -p $port:8000 $image";
         passthru($cmd);
 
+        foreach($boots as $boot){
+            $cmd = "docker exec $container $boot";
+            passthru($cmd);
+        }
+
         $cmd = "docker exec $container composer show";
         exec($cmd, $res);
         $res = implode($res);
@@ -64,6 +77,7 @@ class InstallDoctane extends Command
             passthru("docker exec $container composer require laravel/octane");
             passthru("docker exec $container php artisan octane:install --server=swoole");
         }
+        $this->info("Starting octane server");
         passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0");
         $this->info("Checking octane server status");
         sleep(2);

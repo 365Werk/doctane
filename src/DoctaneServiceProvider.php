@@ -28,7 +28,7 @@ class DoctaneServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/doctane.php' => config_path('doctane.php'),
+            __DIR__.'/../config/doctane.php' => config_path('doctane.php'), 'doctane-config',
         ]);
     }
 
@@ -38,12 +38,9 @@ class DoctaneServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/doctane.php', 'doctane');
-        $this->commands($this->commands);
-    }
 
-    protected function registerPublishing()
-    {
         if ($this->app->runningInConsole()) {
+            $this->commands($this->commands);
             $this->publishes([
                 __DIR__.'/../config/doctane.php' => config_path('doctane.php'),
             ], 'doctane-config');
