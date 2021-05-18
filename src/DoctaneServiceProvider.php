@@ -14,7 +14,9 @@ class DoctaneServiceProvider extends ServiceProvider
      */
     protected $commands = [
         'Werk365\Doctane\Commands\InstallDoctane',
-        'Werk365\Doctane\Commands\BuildDocker',
+        'Werk365\Doctane\Commands\DoctaneNpm',
+        'Werk365\Doctane\Commands\DoctaneComposer',
+        'Werk365\Doctane\Commands\DoctaneBash',
         'Werk365\Doctane\Commands\StartDocker',
         'Werk365\Doctane\Commands\StopDocker',
         'Werk365\Doctane\Commands\ReloadDocker',

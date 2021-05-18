@@ -5,19 +5,19 @@ namespace Werk365\Doctane\Commands;
 use Illuminate\Console\Command;
 
 
-class ReloadDocker extends Command
+class DoctaneBash extends Command
 {
     /**
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = 'doctane:reload';
+    protected $signature = 'doctane:bash';
 
     /**
      * The console command description.
      * @var string
      */
-    protected $description = 'Reload Octane workers';
+    protected $description = 'Used to bash into your container';
 
     /**
      * Execute the console command.
@@ -26,10 +26,9 @@ class ReloadDocker extends Command
      */
     public function handle()
     {
-        $container = config('doctane.container_name');;
-        $image = config('doctane.image_name');
-        $port = config('doctane.port');
-        $cmd = 'docker exec '.$container.' php artisan octane:reload';
+        $container = config('doctane.container_name');
+        $this->info("Now entering your container, type 'exit' to leave");
+        $cmd = "docker exec -t -i $container bash";
         passthru($cmd);
-    }
+     }
 }

@@ -17,7 +17,7 @@ class StopDocker extends Command
      * The console command description.
      * @var string
      */
-    protected $description = 'asd';
+    protected $description = 'Stop container';
 
     /**
      * Execute the console command.

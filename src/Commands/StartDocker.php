@@ -17,7 +17,7 @@ class StartDocker extends Command
      * The console command description.
      * @var string
      */
-    protected $description = 'asd';
+    protected $description = 'Run container from image';
 
     /**
      * Execute the console command.
@@ -29,12 +29,18 @@ class StartDocker extends Command
         $container = config('doctane.container_name');;
         $image = config('doctane.image_name');
         $port = config('doctane.port');
+        $cmd = "docker ps -q -f name=$container";
+        exec($cmd, $res);
+        if($res){
+            $this->info("Container is already running, doctane:stop the container first");
+            return false;
+        }
         // Check if container exists
         // Check if container exists
         $this->info("Checking if $container exists");
         $cmd = "docker ps -aq -f status=exited -f name=$container";
         exec($cmd, $res);
-        
+
         if($res){
             $this->info("Cleaning containers");
             $cmd = "docker rm $container";
