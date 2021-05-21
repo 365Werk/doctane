@@ -84,7 +84,7 @@ class InstallDoctane extends Command
                 passthru("docker exec $container php artisan octane:install --server=swoole");
             }
             $this->info("Starting octane server");
-            passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0");
+            passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=4 --task-workers=8");
             $this->info("Checking octane server status");
             sleep(2);
             $cmd = "docker exec $container php artisan octane:status";
