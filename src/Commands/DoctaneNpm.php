@@ -4,7 +4,6 @@ namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
 
-
 class DoctaneNpm extends Command
 {
     /**
@@ -26,10 +25,10 @@ class DoctaneNpm extends Command
      */
     public function handle()
     {
-        $container = config('doctane.container_name');;
+        $container = config('doctane.container_name');
         $image = config('doctane.image_name');
         $port = config('doctane.port');
-        $cmd = "docker exec $container npm " . implode(' ' , $this->argument('arguments'));
+        $cmd = "docker exec $container npm ".implode(' ', $this->argument('arguments'));
         system($cmd);
-     }
+    }
 }

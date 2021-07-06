@@ -4,7 +4,6 @@ namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
 
-
 class InstallDoctane extends Command
 {
     /**
@@ -26,11 +25,11 @@ class InstallDoctane extends Command
      */
     public function handle()
     {
-        $this->info("Installing Doctane");
-        $this->info("Publishing config to config/doctane.php");
+        $this->info('Installing Doctane');
+        $this->info('Publishing config to config/doctane.php');
         $this->call('vendor:publish', ['--tag' => 'doctane-config', '--force' => true]);
 
-        $path = config_path('doctane') . '.php';
+        $path = config_path('doctane').'.php';
 
         $name = str_replace([' ', '.'], '-', strtolower($this->ask('What is your application name? (Will be used for image and container name)')));
         if (file_exists($path)) {
@@ -52,7 +51,7 @@ class InstallDoctane extends Command
         }
 
         $w = $this->choice('Would you like to change the octane worker amounts?', ['no', 'yes']);
-        if($w === 'yes'){
+        if ($w === 'yes') {
             $workers = $this->ask('How many workers do you want to use?');
             if (file_exists($path)) {
                 file_put_contents($path, str_replace(
@@ -70,16 +69,15 @@ class InstallDoctane extends Command
         $this->info('Finished configuration, you can edit these changes in config/doctane.php');
         $this->info('Starting to build image now');
 
-        $container = config('doctane.container_name');;
+        $container = config('doctane.container_name');
         $image = config('doctane.image_name');
         $port = config('doctane.port');
         $boots = config('doctane.boot');
 
-        $cmd = 'cd vendor/werk365/doctane/docker && docker build -t ' . $image . ' .';
+        $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
         passthru($cmd);
 
-        $this->info("Build complete");
-        $this->info("To start the Octane server, run php artisan doctane:start");
-
+        $this->info('Build complete');
+        $this->info('To start the Octane server, run php artisan doctane:start');
     }
 }

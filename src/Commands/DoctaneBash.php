@@ -4,7 +4,6 @@ namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
 
-
 class DoctaneBash extends Command
 {
     /**
@@ -30,5 +29,5 @@ class DoctaneBash extends Command
         $this->info("Now entering your container, type 'exit' to leave");
         $cmd = "docker exec -t -i $container bash";
         passthru($cmd);
-     }
+    }
 }
