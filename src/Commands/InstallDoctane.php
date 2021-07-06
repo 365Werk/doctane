@@ -28,69 +28,58 @@ class InstallDoctane extends Command
     {
         $this->info("Installing Doctane");
         $this->info("Publishing config to config/doctane.php");
-        $this->callSilent('vendor:publish', ['--tag' => 'doctane-config', '--force' => true]);
-        $continue = $this->choice(
-            'Config has been published, please ensure necessary changes have been made before continueing.',
-            ['continue', 'abort'],
-        );
-        if ($continue === "abort") {
-            return false;
+        $this->call('vendor:publish', ['--tag' => 'doctane-config', '--force' => true]);
+
+        $path = config_path('doctane') . '.php';
+
+        $name = str_replace([' ', '.'], '-', strtolower($this->ask('What is your application name? (Will be used for image and container name)')));
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'doctane-container', $name.'-container', file_get_contents($path)
+            ));
         }
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'doctane-image', $name.'-image', file_get_contents($path)
+            ));
+        }
+
+        $port = $this->ask('What port should your application run on?');
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                '8000', $port, file_get_contents($path)
+            ));
+        }
+
+        $w = $this->choice('Would you like to change the octane worker amounts?', ['no', 'yes']);
+        if($w === 'yes'){
+            $workers = $this->ask('How many workers do you want to use?');
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    '"workers" => 4', '"workers" => '.trim($workers), file_get_contents($path)
+                ));
+            }
+            $task_workers = $this->ask('How many task workers do you want to use?');
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    '"task_workers" => 8', '"task_workers" => '.trim($task_workers), file_get_contents($path)
+                ));
+            }
+        }
+
+        $this->info('Finished configuration, you can edit these changes in config/doctane.php');
+        $this->info('Starting to build image now');
+
         $container = config('doctane.container_name');;
         $image = config('doctane.image_name');
         $port = config('doctane.port');
         $boots = config('doctane.boot');
-        $this->info("Building image");
+
         $cmd = 'cd vendor/werk365/doctane/docker && docker build -t ' . $image . ' .';
         passthru($cmd);
-        $this->info("Installation complete");
 
-        $run = $this->choice(
-            'Would you like to start the octane server?',
-            ['y', 'n'],
-        );
-        if ($run === "y") {
-            $cmd = "docker ps -q -f name=$container";
-            exec($cmd, $res);
-            if ($res) {
-                $this->info("Container is already running, doctane:stop the container first, after this continue with doctane:start");
-                return false;
-            }
-            // Check if container exists
-            $this->info("Checking if $container exists");
-            $cmd = "docker ps -aq -f status=exited -f name=$container";
-            exec($cmd, $res);
+        $this->info("Build complete");
+        $this->info("To start the Octane server, run php artisan doctane:start");
 
-            if ($res) {
-                $this->info("Cleaning containers");
-                $cmd = "docker rm $container";
-                passthru($cmd);
-            }
-            $this->info("Creating new $container from $image");
-            $cmd = "docker run -d --name $container -v " . getcwd() . ":/home/application -i -t -p $port:8000 $image";
-            passthru($cmd);
-
-            foreach ($boots as $boot) {
-                $cmd = "docker exec $container $boot";
-                passthru($cmd);
-            }
-
-            $cmd = "docker exec $container composer show";
-            exec($cmd, $res);
-            $res = implode($res);
-            $pos = strpos($res, "laravel/octane");
-            if ($pos === false) {
-                passthru("docker exec $container composer require laravel/octane");
-                passthru("docker exec $container php artisan octane:install --server=swoole");
-            }
-            $this->info("Starting octane server");
-            passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=4 --task-workers=8");
-            $this->info("Checking octane server status");
-            sleep(2);
-            $cmd = "docker exec $container php artisan octane:status";
-            passthru($cmd);
-
-            $this->info("Running on 127.0.0.1:$port");
-        }
     }
 }

@@ -29,13 +29,15 @@ class StartDocker extends Command
         $container = config('doctane.container_name');;
         $image = config('doctane.image_name');
         $port = config('doctane.port');
+        $workers = config('doctane.workers')??4;
+        $taskWorkers = config('doctane.task_workers')??8;
+
         $cmd = "docker ps -q -f name=$container";
         exec($cmd, $res);
         if($res){
             $this->info("Container is already running, doctane:stop the container first");
             return false;
         }
-        // Check if container exists
         // Check if container exists
         $this->info("Checking if $container exists");
         $cmd = "docker ps -aq -f status=exited -f name=$container";
@@ -46,6 +48,7 @@ class StartDocker extends Command
             $cmd = "docker rm $container";
             passthru($cmd);
         }
+
         $this->info("Creating new $container from $image");
         $cmd = "docker run -d --name $container -v ".getcwd().":/home/application -i -t -p $port:8000 $image";
         passthru($cmd);
@@ -54,11 +57,14 @@ class StartDocker extends Command
         exec($cmd, $res);
         $res = implode($res);
         $pos = strpos($res, "laravel/octane");
+
         if($pos === false){
             passthru("docker exec $container composer require laravel/octane");
             passthru("docker exec $container php artisan octane:install --server=swoole");
         }
-        passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=4 --task-workers=8");
+
+        passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=$workers --task-workers=$taskWorkers");
+
         $this->info("Checking octane server status");
         sleep(2);
         $cmd = "docker exec $container php artisan octane:status";
