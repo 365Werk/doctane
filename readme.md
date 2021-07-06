@@ -2,7 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
 
 Simple package to create and run docker image preconfigured for Laravel Octane + Swoole and Kafka.
@@ -75,11 +74,11 @@ license. Please see the [license file](license.md) for more information.
 [ico-version]: https://img.shields.io/packagist/v/werk365/doctane.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/werk365/doctane.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/werk365/doctane/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-styleci]: https://styleci.io/repos/366024317/shield
 
 [link-packagist]: https://packagist.org/packages/werk365/doctane
 [link-downloads]: https://packagist.org/packages/werk365/doctane
 [link-travis]: https://travis-ci.org/werk365/doctane
-[link-styleci]: https://styleci.io/repos/12345678
+[link-styleci]: https://styleci.io/repos/366024317
 [link-author]: https://github.com/werk365
 [link-contributors]: ../../contributors
