@@ -4,7 +4,6 @@ namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
 
-
 class StartDocker extends Command
 {
     /**
@@ -26,16 +25,17 @@ class StartDocker extends Command
      */
     public function handle()
     {
-        $container = config('doctane.container_name');;
+        $container = config('doctane.container_name');
         $image = config('doctane.image_name');
         $port = config('doctane.port');
-        $workers = config('doctane.workers')??4;
-        $taskWorkers = config('doctane.task_workers')??8;
+        $workers = config('doctane.workers') ?? 4;
+        $taskWorkers = config('doctane.task_workers') ?? 8;
 
         $cmd = "docker ps -q -f name=$container";
         exec($cmd, $res);
-        if($res){
-            $this->info("Container is already running, doctane:stop the container first");
+        if ($res) {
+            $this->info('Container is already running, doctane:stop the container first');
+
             return false;
         }
         // Check if container exists
@@ -43,8 +43,8 @@ class StartDocker extends Command
         $cmd = "docker ps -aq -f status=exited -f name=$container";
         exec($cmd, $res);
 
-        if($res){
-            $this->info("Cleaning containers");
+        if ($res) {
+            $this->info('Cleaning containers');
             $cmd = "docker rm $container";
             passthru($cmd);
         }
@@ -56,16 +56,16 @@ class StartDocker extends Command
         $cmd = "docker exec $container composer show";
         exec($cmd, $res);
         $res = implode($res);
-        $pos = strpos($res, "laravel/octane");
+        $pos = strpos($res, 'laravel/octane');
 
-        if($pos === false){
+        if ($pos === false) {
             passthru("docker exec $container composer require laravel/octane");
             passthru("docker exec $container php artisan octane:install --server=swoole");
         }
 
         passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=$workers --task-workers=$taskWorkers");
 
-        $this->info("Checking octane server status");
+        $this->info('Checking octane server status');
         sleep(2);
         $cmd = "docker exec $container php artisan octane:status";
         passthru($cmd);

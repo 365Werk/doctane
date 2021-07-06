@@ -4,7 +4,6 @@ namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
 
-
 class BuildDocker extends Command
 {
     /**
@@ -30,8 +29,8 @@ class BuildDocker extends Command
         $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
         exec($cmd, $res);
 
-        foreach($res as $r){
+        foreach ($res as $r) {
             $this->info($r);
         }
-     }
+    }
 }
