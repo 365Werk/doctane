@@ -2,6 +2,7 @@
     "name": "werk365/doctane",
     "description": ":package_description",
     "license": "MIT",
+    "version": "0.0.1",
     "authors": [
         {
             "name": "Hergen Dillema",
