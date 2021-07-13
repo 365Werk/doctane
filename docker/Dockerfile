@@ -23,8 +23,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN pecl channel-update pecl.php.net
 RUN pecl install rdkafka pcov swoole ssh2
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install mbstring xml iconv pcntl gd zip sockets pdo pdo_pgsql pdo_mysql bcmath
-RUN docker-php-ext-enable mbstring xml rdkafka gd iconv zip swoole pcov pcntl sockets bcmath pdo pdo_pgsql pdo_mysql
+RUN docker-php-ext-install mbstring xml iconv pcntl gd zip sockets pdo pdo_pgsql pdo_mysql bcmath soap
+RUN docker-php-ext-enable mbstring xml rdkafka gd iconv zip swoole pcov pcntl sockets bcmath pdo pdo_pgsql pdo_mysql soap
 
 # fix work iconv library with alphine
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv

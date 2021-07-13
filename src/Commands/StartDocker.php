@@ -3,6 +3,7 @@
 namespace Werk365\Doctane\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class StartDocker extends Command
 {
@@ -34,17 +35,17 @@ class StartDocker extends Command
         $cmd = "docker ps -q -f name=$container";
         exec($cmd, $res);
         if ($res) {
-            $this->info('Container is already running, doctane:stop the container first');
+            $this->error('Container is already running, doctane:stop the container first');
 
             return false;
         }
         // Check if container exists
-        $this->info("Checking if $container exists");
+        $this->line("Checking if $container exists");
         $cmd = "docker ps -aq -f status=exited -f name=$container";
         exec($cmd, $res);
 
         if ($res) {
-            $this->info('Cleaning containers');
+            $this->line('Cleaning containers');
             $cmd = "docker rm $container";
             passthru($cmd);
         }
@@ -65,12 +66,18 @@ class StartDocker extends Command
 
         passthru("docker exec -d $container php artisan octane:start --host=0.0.0.0 --workers=$workers --task-workers=$taskWorkers");
 
-        $this->info('Checking octane server status');
+        $this->line('Checking octane server status');
         sleep(2);
         $cmd = "docker exec $container php artisan octane:status";
-        passthru($cmd);
+        $result = exec($cmd);
+        if(Str::endsWith($result, "Octane server is running.")){
+            $this->newLine();
+            $this->info("Running on 127.0.0.1:$port");
+        } else {
+            $this->newLine();
+            $this->error("Server is not running");
+        }
 
-        $this->info("Running on 127.0.0.1:$port");
 
         return true;
     }

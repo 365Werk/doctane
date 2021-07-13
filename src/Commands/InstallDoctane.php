@@ -65,14 +65,11 @@ class InstallDoctane extends Command
                 ));
             }
         }
-
+        $this->call('cache:clear');
         $this->info('Finished configuration, you can edit these changes in config/doctane.php');
         $this->info('Starting to build image now');
 
-        $container = config('doctane.container_name');
-        $image = config('doctane.image_name');
-        $port = config('doctane.port');
-        $boots = config('doctane.boot');
+        $image = $name.'-image';
 
         $cmd = 'cd vendor/werk365/doctane/docker && docker build -t '.$image.' .';
         passthru($cmd);
