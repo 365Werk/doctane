@@ -26,18 +26,18 @@ class DockerStatus extends Command
      */
     public function handle()
     {
-        $this->line("Checking server status");
+        $this->line('Checking server status');
         $container = config('doctane.container_name');
         $image = config('doctane.image_name');
         $port = config('doctane.port');
         $cmd = "docker exec $container php artisan octane:status";
         $result = exec($cmd);
-        if(Str::endsWith($result, "Octane server is running.")){
+        if (Str::endsWith($result, 'Octane server is running.')) {
             $this->newLine();
             $this->info("Running on 127.0.0.1:$port");
         } else {
             $this->newLine();
-            $this->error("Server is not running");
+            $this->error('Server is not running');
         }
     }
 }
