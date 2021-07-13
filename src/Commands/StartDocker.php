@@ -70,14 +70,13 @@ class StartDocker extends Command
         sleep(2);
         $cmd = "docker exec $container php artisan octane:status";
         $result = exec($cmd);
-        if(Str::endsWith($result, "Octane server is running.")){
+        if (Str::endsWith($result, 'Octane server is running.')) {
             $this->newLine();
             $this->info("Running on 127.0.0.1:$port");
         } else {
             $this->newLine();
-            $this->error("Server is not running");
+            $this->error('Server is not running');
         }
-
 
         return true;
     }
