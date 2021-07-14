@@ -18,6 +18,7 @@ class DoctaneServiceProvider extends ServiceProvider
         'Werk365\Doctane\Commands\DoctaneComposer',
         'Werk365\Doctane\Commands\DoctaneBash',
         'Werk365\Doctane\Commands\StartDocker',
+        'Werk365\Doctane\Commands\RestartDocker',
         'Werk365\Doctane\Commands\StopDocker',
         'Werk365\Doctane\Commands\ReloadDocker',
         'Werk365\Doctane\Commands\DockerStatus',
