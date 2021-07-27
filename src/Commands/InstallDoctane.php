@@ -55,13 +55,13 @@ class InstallDoctane extends Command
             $workers = $this->ask('How many workers do you want to use?');
             if (file_exists($path)) {
                 file_put_contents($path, str_replace(
-                    '"workers" => 4', '"workers" => '.trim($workers), file_get_contents($path)
+                    "'workers' => 4", "'workers' => ".trim($workers), file_get_contents($path)
                 ));
             }
             $task_workers = $this->ask('How many task workers do you want to use?');
             if (file_exists($path)) {
                 file_put_contents($path, str_replace(
-                    '"task_workers" => 8', '"task_workers" => '.trim($task_workers), file_get_contents($path)
+                    "'task_workers' => 8", "'task_workers' => ".trim($task_workers), file_get_contents($path)
                 ));
             }
         }
