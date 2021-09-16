@@ -26,6 +26,7 @@ class DoctaneServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
+     *
      * @throws BindingResolutionException
      */
     public function boot()

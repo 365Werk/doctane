@@ -9,12 +9,14 @@ class RestartDocker extends Command
 {
     /**
      * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'doctane:restart';
 
     /**
      * The console command description.
+     *
      * @var string
      */
     protected $description = 'Quick restart container container';

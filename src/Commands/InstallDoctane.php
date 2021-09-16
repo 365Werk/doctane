@@ -8,12 +8,14 @@ class InstallDoctane extends Command
 {
     /**
      * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'doctane:install';
 
     /**
      * The console command description.
+     *
      * @var string
      */
     protected $description = 'Install the package, build an image and start the container';

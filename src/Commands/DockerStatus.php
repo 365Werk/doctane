@@ -9,12 +9,14 @@ class DockerStatus extends Command
 {
     /**
      * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'doctane:status';
 
     /**
      * The console command description.
+     *
      * @var string
      */
     protected $description = 'Octane server status check';
