@@ -8,12 +8,14 @@ class DoctaneBash extends Command
 {
     /**
      * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'doctane:bash';
 
     /**
      * The console command description.
+     *
      * @var string
      */
     protected $description = 'Used to bash into your container';

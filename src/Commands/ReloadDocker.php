@@ -8,12 +8,14 @@ class ReloadDocker extends Command
 {
     /**
      * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'doctane:reload';
 
     /**
      * The console command description.
+     *
      * @var string
      */
     protected $description = 'Reload Octane workers';
