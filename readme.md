@@ -33,6 +33,20 @@ $ php artisan doctane:stop
 ```
 Shuts down container
 
+
+
+``` bash
+$ php artisan doctane:restart
+```
+Restarts container
+
+
+``` bash
+$ php artisan doctane:bash
+```
+Lets you bash into the container
+
+
 ``` bash
 $ php artisan doctane:reload
 ```
